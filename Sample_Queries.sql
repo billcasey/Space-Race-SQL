@@ -145,3 +145,27 @@ LEFT JOIN (
 ON Multiple.Astronaut_ID = Astronaut.Astronaut_ID
 HAVING Multiple.Flights > 1
 ORDER BY Multiple.Flights DESC;	
+
+
+--CALENDAR EXERCISES
+/* Count the number of missions launched per year */
+SELECT YEAR(Launch), COUNT(*) AS Launches FROM Mission
+GROUP BY YEAR(Launch);
+/* The NULL value representa Apollo 1, which never launched. In 1967 the Gus Grissom, Ed White, and Roger Chaffee perished in a fire during the test of the capsule which would be used for Apollo 1. */
+
+/* Count the number of launches that occur during each calendar month */
+SELECT MONTHNAME(Launch) AS 'Month of Launch', COUNT(*) AS Launches FROM Mission
+WHERE Launch IS NOT NULL
+GROUP BY MONTH(Launch);
+
+--Now order count of launches desecending to determine which month is most popular for manned spaceflight */
+SELECT MONTHNAME(Launch) AS 'Month of Launch', COUNT(*) AS Launches FROM Mission
+WHERE Launch IS NOT NULL
+GROUP BY MONTH(Launch)
+ORDER BY Launches DESC;
+
+/* Which day of the week is most popular for mission launches? */
+SELECT DAYNAME(Launch) AS 'Day of Launch', COUNT(*) AS Launches FROM Mission
+WHERE Launch IS NOT NULL
+GROUP BY DAYNAME(Launch)
+ORDER BY Launches DESC;
