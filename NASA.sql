@@ -1,4 +1,16 @@
-/* These statements will create the NASA Database and populate it with data. */
+/* I created this database using MySQL 5.7 in the command line. 
+ *
+ * You can import and execute this entire .sql file into MySQL by doing the following:
+ * In the mysql command line, type the word 'source ' and then put the path to this file.
+ *  
+ * Example:
+ * mysql> source C:\Users\Bill\Projects\SpaceRaceSQL\NASA.sql;
+ *
+ * If this does not work, you can always copy the statements and paste them individually.
+ */
+
+CREATE DATABASE NASA;
+USE NASA;
 
 CREATE TABLE Astronaut (
 	Astronaut_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
