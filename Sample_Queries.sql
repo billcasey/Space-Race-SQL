@@ -102,7 +102,9 @@ INNER JOIN MissionAstronaut
 INNER JOIN Astronaut
 	ON MissionAstronaut.Astronaut_ID = Astronaut.Astronaut_ID
 	WHERE Astronaut.Last_Name = "Lovell"; /* Jim Lovell - The Coolest Astronaut */
-	
+
+
+--MULTIPLE MISSIONS EXERCISE
 /* Select only astronauts who flew multiple missions, and display how many missions they flew. Sort desecending*/
 SELECT Astronaut.First_Name, Astronaut.Last_Name, Multiple.Flights FROM Astronaut
 LEFT JOIN (
@@ -113,4 +115,33 @@ ON Multiple.Astronaut_ID = Astronaut.Astronaut_ID
 HAVING Multiple.Flights > 1
 ORDER BY Multiple.Flights DESC;	
 	
-	
+--Oddly, most veterans go by nicknames. Show the Nickname column after the astronaut's first names. 
+SELECT Astronaut.First_Name, Astronaut.Nickname, Astronaut.Last_Name, Multiple.Flights FROM Astronaut
+LEFT JOIN (
+	SELECT Astronaut_ID, COUNT(Mission_ID) AS Flights FROM MissionAstronaut
+	GROUP BY Astronaut_ID
+) AS Multiple 
+ON Multiple.Astronaut_ID = Astronaut.Astronaut_ID
+HAVING Multiple.Flights > 1
+ORDER BY Multiple.Flights DESC;	
+
+--It's better to leave the nickname blank rather than show NULL. Use the IFNULL function.
+SELECT Astronaut.First_Name, IFNULL(Astronaut.Nickname, ''), Astronaut.Last_Name, Multiple.Flights FROM Astronaut
+LEFT JOIN (
+	SELECT Astronaut_ID, COUNT(Mission_ID) AS Flights FROM MissionAstronaut
+	GROUP BY Astronaut_ID
+) AS Multiple 
+ON Multiple.Astronaut_ID = Astronaut.Astronaut_ID
+HAVING Multiple.Flights > 1
+ORDER BY Multiple.Flights DESC;	
+
+--As you saw from the last query, we should cast the IFNULL function to a better name.
+--Unless you want it to display as "IFNULL(Astronaut.Nickname, '')"
+SELECT Astronaut.First_Name, IFNULL(Astronaut.Nickname, '') AS Nickname, Astronaut.Last_Name, Multiple.Flights FROM Astronaut
+LEFT JOIN (
+	SELECT Astronaut_ID, COUNT(Mission_ID) AS Flights FROM MissionAstronaut
+	GROUP BY Astronaut_ID
+) AS Multiple 
+ON Multiple.Astronaut_ID = Astronaut.Astronaut_ID
+HAVING Multiple.Flights > 1
+ORDER BY Multiple.Flights DESC;	
