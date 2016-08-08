@@ -1,6 +1,7 @@
 /* These sample queries will help you understand SQL SELECTS and JOINS */
 
---SELECT STATEMENTS ONLY
+
+--SELECT STATEMENTS
 /* Show all the missions, and show all the mission information */
 SELECT * FROM Mission;
 
@@ -39,6 +40,7 @@ WHERE Astronaut_ID NOT IN
 (
 	SELECT Astronaut_ID FROM MissionAstronaut
 );
+
 
 --JOINS
 /* Shows all mission names with the Astronauts that flew on them */ 
@@ -93,5 +95,22 @@ INNER JOIN Mission
 	ON MissionAstronaut.Mission_ID = Mission.Mission_ID
 	AND Mission.Mission_Name LIKE '%8%';
 	
-
+/* All Missions Flown by an astronaut found by his last name */
+SELECT Mission.Mission_Name, Mission.Launch, Mission.Splashdown FROM Mission
+INNER JOIN MissionAstronaut
+	ON MissionAstronaut.Mission_ID = Mission.Mission_ID
+INNER JOIN Astronaut
+	ON MissionAstronaut.Astronaut_ID = Astronaut.Astronaut_ID
+	WHERE Astronaut.Last_Name = "Lovell"; /* Jim Lovell - The Coolest Astronaut */
+	
+/* Select only astronauts who flew multiple missions, and display how many missions they flew. Sort desecending*/
+SELECT Astronaut.First_Name, Astronaut.Last_Name, Multiple.Flights FROM Astronaut
+LEFT JOIN (
+	SELECT Astronaut_ID, COUNT(Mission_ID) AS Flights FROM MissionAstronaut
+	GROUP BY Astronaut_ID
+) AS Multiple 
+ON Multiple.Astronaut_ID = Astronaut.Astronaut_ID
+HAVING Multiple.Flights > 1
+ORDER BY Multiple.Flights DESC;	
+	
 	
