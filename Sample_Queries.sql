@@ -41,7 +41,7 @@ WHERE Astronaut_ID NOT IN
 );
 
 --JOINS
-/* Prints All Missions with the Astronauts that flew on them */ 
+/* Shows all mission names with the Astronauts that flew on them */ 
 SELECT Mission.Mission_Name, Astronaut.First_Name, Astronaut.Last_Name FROM MissionAstronaut
 LEFT JOIN Astronaut
 	ON MissionAstronaut.Astronaut_ID = Astronaut.Astronaut_ID
@@ -55,3 +55,43 @@ INNER JOIN Astronaut
 INNER JOIN Mission
 	ON MissionAstronaut.Mission_ID = Mission.Mission_ID
 	AND Mission.Mission_ID = 22; /* 22 was Apollo 11 */
+	
+--TRY USING THE WRONG JOIN
+--Run this query and see how using LEFT JOINs changes the result set. 
+SELECT Mission.Mission_Name, Astronaut.First_Name, Astronaut.Last_Name FROM MissionAstronaut
+LEFT JOIN Astronaut
+	ON MissionAstronaut.Astronaut_ID = Astronaut.Astronaut_ID
+LEFT JOIN Mission
+	ON MissionAstronaut.Mission_ID = Mission.Mission_ID
+	AND Mission.Mission_ID = 22;
+--Using INNER JOIN means you don't get all those Astronaut names joined with null mission values.
+	
+--TRY USING THE WRONG JOIN PT II
+--Run this query and see how using RIGHT JOINs changes the result set. 
+SELECT Mission.Mission_Name, Astronaut.First_Name, Astronaut.Last_Name FROM MissionAstronaut
+RIGHT JOIN Astronaut
+	ON MissionAstronaut.Astronaut_ID = Astronaut.Astronaut_ID
+RIGHT JOIN Mission
+	ON MissionAstronaut.Mission_ID = Mission.Mission_ID
+	AND Mission.Mission_ID = 22;	
+--Using INNER JOIN means you don't get null values for all astronaut names in missions that aren't Apollo 11.	
+
+
+/* All Astronauts who flew on Gemini 7 */
+SELECT Mission.Mission_Name, Astronaut.First_Name, Astronaut.Last_Name FROM MissionAstronaut
+INNER JOIN Astronaut
+	ON MissionAstronaut.Astronaut_ID = Astronaut.Astronaut_ID
+INNER JOIN Mission
+	ON MissionAstronaut.Mission_ID = Mission.Mission_ID
+	AND Mission.Mission_Name = 'Gemini 7';
+
+/* All Astronauts who flew on missions that had '8' in their Mission Name */
+SELECT Mission.Mission_Name, Astronaut.First_Name, Astronaut.Last_Name FROM MissionAstronaut
+INNER JOIN Astronaut
+	ON MissionAstronaut.Astronaut_ID = Astronaut.Astronaut_ID
+INNER JOIN Mission
+	ON MissionAstronaut.Mission_ID = Mission.Mission_ID
+	AND Mission.Mission_Name LIKE '%8%';
+	
+
+	
